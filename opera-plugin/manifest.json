@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Send Selected Text",
+  "version": "1.0",
+  "permissions": [
+    "contextMenus",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_script.js"]
+    }
+  ]
+}
+

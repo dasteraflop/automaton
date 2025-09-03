@@ -1,0 +1,3 @@
+
+
+POST     /generate                       web.controllers.AutomatonController.index()
