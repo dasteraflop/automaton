@@ -1,13 +1,43 @@
-package automaton.pdf
+package automaton.pdf.writer
 
-
+import automaton.text.tokens.{BreakToken, LineItemToken, Token}
+import automaton.utils.CommonUtils.timeFormat
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.{Chunk, Document, FontFactory, Paragraph}
-import automaton.text.tokens.{BreakToken, LineItemToken, Token}
 
-import java.io.FileOutputStream
+import java.io.{File, FileOutputStream}
+import java.nio.file.{Files, Paths}
 
-private[pdf] class DefaultWriter extends Writer {
+private[pdf] class DefaultWriter(
+  config: WriterConfig
+) extends Writer {
+
+  def write(
+    tokens: Seq[Token],
+  ): String = {
+    val path = s"${config.outputLocation}/${timeFormat.format(System.currentTimeMillis())}"
+    if (!new File(path).exists()) {
+      Files.createDirectory(
+        Paths.get(path)
+      )
+    }
+    println(s"writing output to '$path''")
+    val os = new FileOutputStream(s"$path/resume.pdf", true)
+    implicit val doc: Document = new Document()
+    val writer = PdfWriter.getInstance(doc, os)
+    doc.open()
+    val iterator = tokens.iterator
+
+    iterator.takeWhile(
+      !_.isInstanceOf[BreakToken]
+    ).foreach(printToken)
+
+    print(iterator.nextOption(), iterator, Seq())
+
+    //only on success, in theory
+    doc.close()
+    path
+  }
 
   private def chunk(token: Token): Chunk = {
     new Chunk(
@@ -50,18 +80,19 @@ private[pdf] class DefaultWriter extends Writer {
     implicit doc: Document
   ): Unit = {
     doc.add(Chunk.NEWLINE)
-    val iterator = tokens.iterator
 
-    iterator.takeWhile(
+    //FIXME:
+    val t = tokens.takeWhile(
       {
         case _: LineItemToken => false
         case t: Token => true
       }
-    ).foreach(printToken)
+    )
 
+    t.foreach(printToken)
     //line items
     val list = new com.itextpdf.text.List(false, 2f)
-    iterator.foreach(
+    tokens.drop(t.size).foreach(
       token => list.add(
         new com.itextpdf.text.ListItem(
           token.value,
@@ -96,25 +127,5 @@ private[pdf] class DefaultWriter extends Writer {
       case Some(_) =>
         print(tokens.nextOption(), tokens, group ++ Seq(head.get))
     }
-  }
-
-  def write(
-    tokens: Seq[Token],
-    path:   String
-  ): Unit = {
-    val os = new FileOutputStream(path, true)
-    implicit val doc: Document = new Document()
-    val writer = PdfWriter.getInstance(doc, os)
-    doc.open()
-    val iterator = tokens.iterator
-
-    iterator.takeWhile(
-      !_.isInstanceOf[BreakToken]
-    ).foreach(printToken)
-
-    print(iterator.nextOption(), iterator, Seq())
-
-    //only on success, in theory
-    doc.close()
   }
 }

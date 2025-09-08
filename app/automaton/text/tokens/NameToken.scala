@@ -7,7 +7,7 @@ import automaton.text.tokens.mixins.{Center, SizeVeryLarge}
  *
  * @param value text for this token value
  */
-case class NameToken private[text](
+case class NameToken (
   value: String,
 ) extends Token with Center with SizeVeryLarge {
 

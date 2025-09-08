@@ -7,7 +7,7 @@ import automaton.text.tokens.mixins.{FontBold, SizeNormal}
  *
  * @param value text for this token value
  */
-case class LongTextToken private[text](
+case class LongTextToken (
   value: String,
 ) extends Token with SizeNormal {
 

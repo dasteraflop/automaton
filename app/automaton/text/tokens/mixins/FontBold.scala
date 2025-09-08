@@ -1,7 +1,7 @@
 package automaton.text.tokens.mixins
 
-import com.itextpdf.text.{Element, FontFactory}
 import automaton.text.tokens.Token
+import com.itextpdf.text.{Element, FontFactory}
 
 private[tokens] trait FontBold {
   self: Token =>

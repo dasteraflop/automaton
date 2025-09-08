@@ -1,4 +1,4 @@
-package automaton.pdf
+package automaton.pdf.writer
 
 import automaton.text.tokens.Token
 
@@ -13,12 +13,12 @@ trait Writer {
    * as a PDF file with some predefined format
    *
    * @param tokens from a text file
-   * @param path   what to write PDF to
+   *
+   * @return path where written
    */
   def write(
     tokens: Seq[Token],
-    path:   String
-  ): Unit
+  ): String
 }
 
 object Writer {
@@ -28,7 +28,9 @@ object Writer {
    *
    * @return
    */
-  def default(): DefaultWriter = {
-    new DefaultWriter()
+  def default(): Writer = {
+    new DefaultWriter(
+      WriterConfig.default()
+    )
   }
 }

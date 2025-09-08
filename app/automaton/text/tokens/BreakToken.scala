@@ -7,7 +7,7 @@ import automaton.text.tokens.mixins.{Center, SizeNormal}
  *
  * @param value text for this token value
  */
-case class BreakToken private[text](
+case class BreakToken (
   value: String,
 ) extends Token with Center with SizeNormal {
 

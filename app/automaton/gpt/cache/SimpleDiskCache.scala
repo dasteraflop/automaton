@@ -1,11 +1,11 @@
 package automaton.gpt.cache
 
-import automaton.gpt.cache.SimpleDiskCache.timeFormat
+
+import automaton.utils.CommonUtils.timeFormat
 
 import java.io.File
 import java.nio.charset.StandardCharsets
 import java.nio.file.{Files, Paths}
-import java.text.SimpleDateFormat
 
 class SimpleDiskCache(
   location: String
@@ -24,6 +24,7 @@ class SimpleDiskCache(
     time:  Long
   ): Unit = {
     val cachePath = s"$location/${timeFormat.format(time)}"
+    println(s"caching ${tpe} at ${cachePath}")
     if (!new File(cachePath).exists()) {
       Files.createDirectory(
         Paths.get(s"$location/${timeFormat.format(time)}")
@@ -44,7 +45,7 @@ class SimpleDiskCache(
    */
   override def get(
     time: String,
-    tpe: String = Cache.output
+    tpe:  String = Cache.output
   ): String = {
     val src = scala.io.Source.fromFile(
       s"$location/$time/$tpe.txt"
@@ -55,10 +56,4 @@ class SimpleDiskCache(
       src.close()
     }
   }
-}
-
-object SimpleDiskCache {
-
-  val timeFormat = new SimpleDateFormat("ddMMMHHmmss")
-
 }

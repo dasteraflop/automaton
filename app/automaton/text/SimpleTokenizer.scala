@@ -11,6 +11,16 @@ import scala.annotation.tailrec
  */
 private[text] class SimpleTokenizer extends Tokenizer {
 
+  def tokens(text: String): Seq[Token] = {
+    val lines  = text.split("\n").toIndexedSeq
+    //name should probably always be first
+    val tokens = Seq(
+      NameToken(lines(0)),
+    )
+
+    asTokens(lines, 1, tokens)
+  }
+
   private def isLineItem(lines: Seq[String], i: Int): Boolean = {
     lines(i).startsWith("- ")
   }
@@ -51,18 +61,6 @@ private[text] class SimpleTokenizer extends Tokenizer {
     else
       asTokens(lines, idx + 1, tokens ++ Seq(ShortTextToken(lines(idx))))
 
-  }
-
-  def tokens(text: String): Seq[Token] = {
-    val lines  = text.split("\n").toIndexedSeq
-    //name, header, address line seem to always be first 3
-    val tokens = Seq(
-      NameToken(lines(0)),
-      ShortTextToken(lines(1)),
-      ShortTextToken(lines(2)),
-    )
-
-    asTokens(lines, 3, tokens)
   }
 
 }

@@ -1,3 +1,3 @@
 
 
-POST     /generate                       web.controllers.AutomatonController.index()
+POST     /generate                       web.controllers.ResumeController.index(atsFriendly: Option[Boolean] ?= Some(true), relevance: Option[Boolean] ?= Some(true), education: Option[Boolean] ?= Some(false))

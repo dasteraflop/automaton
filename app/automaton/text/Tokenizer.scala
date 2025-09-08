@@ -21,6 +21,6 @@ object Tokenizer {
    * @return
    */
   def default(): Tokenizer = {
-    new SimpleTokenizer
+    new MDTokenizer
   }
 }

@@ -1,8 +1,8 @@
 package automaton.text.tokens.mixins
 
+import automaton.text.tokens.Token
 import com.itextpdf.text.FontFactory
 import com.itextpdf.text.pdf.draw.LineSeparator
-import automaton.text.tokens.Token
 
 private[tokens] trait Separator {
   self: Token =>
