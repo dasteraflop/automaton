@@ -1,6 +1,6 @@
 package automaton.pdf.writer
 
-import automaton.text.tokens.{NameToken, ShortTextToken}
+import automaton.text.tokens.{NameToken, ParagraphHeaderToken, ShortTextToken}
 import org.junit.runner.RunWith
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatestplus.junit.JUnitRunner
@@ -18,6 +18,11 @@ class WriterSpec extends AnyFlatSpec {
     val tokens = Seq(
       NameToken("Name"),
       ShortTextToken("things"),
+      ShortTextToken("and"),
+      ShortTextToken("stuff"),
+      ParagraphHeaderToken("a title"),
+      ShortTextToken("and other stuff"),
+
     )
 
     val writer = new DefaultWriter(WriterConfig(workDir))

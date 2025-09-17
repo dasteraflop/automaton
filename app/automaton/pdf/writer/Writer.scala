@@ -28,9 +28,9 @@ object Writer {
    *
    * @return
    */
-  def default(): Writer = {
-    new DefaultWriter(
-      WriterConfig.default()
-    )
+  def default(
+    config: WriterConfig = WriterConfig.default()
+  ): Writer = {
+    new DefaultWriter(config)
   }
 }

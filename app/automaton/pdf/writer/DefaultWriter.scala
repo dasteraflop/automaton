@@ -1,6 +1,6 @@
 package automaton.pdf.writer
 
-import automaton.text.tokens.{BreakToken, LineItemToken, Token}
+import automaton.text.tokens.{BreakToken, LineItemToken, ParagraphHeaderToken, Token}
 import automaton.utils.CommonUtils.timeFormat
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.{Chunk, Document, FontFactory, Paragraph}
@@ -57,6 +57,8 @@ private[pdf] class DefaultWriter(
   )(
     implicit doc: Document
   ): Unit = {
+    if (token.isInstanceOf[ParagraphHeaderToken])
+      doc.add(Chunk.NEWLINE)
     val paragraph = new Paragraph(chunk(token))
     paragraph.setAlignment(token.alignment)
     doc.add(paragraph)
