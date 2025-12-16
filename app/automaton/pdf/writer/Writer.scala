@@ -13,7 +13,6 @@ trait Writer {
    * as a PDF file with some predefined format
    *
    * @param tokens from a text file
-   *
    * @return path where written
    */
   def write(

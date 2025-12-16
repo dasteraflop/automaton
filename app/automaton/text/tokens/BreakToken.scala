@@ -7,8 +7,15 @@ import automaton.text.tokens.mixins.{Center, SizeNormal}
  *
  * @param value text for this token value
  */
-case class BreakToken (
+case class BreakToken(
   value: String,
 ) extends Token with Center with SizeNormal {
 
+}
+
+object BreakToken {
+
+  private val instance = BreakToken("")
+
+  def apply(): BreakToken = instance
 }

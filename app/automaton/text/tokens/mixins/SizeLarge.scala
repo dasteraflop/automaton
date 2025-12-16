@@ -6,5 +6,5 @@ import com.itextpdf.text.Element
 private[tokens] trait SizeLarge {
   self: Token =>
 
-  override def size: Float = 12
+  override def fontSize: Float = 12
 }

@@ -9,7 +9,7 @@ object Sandbox {
 
   def main(args: Array[String]): Unit = {
     val cache = Cache.default()
-    val text = cache.get(
+    val text  = cache.get(
       CommonUtils.readEnv("AUTOMATON_RESPONSE_TIME"),
       Cache.output
     )

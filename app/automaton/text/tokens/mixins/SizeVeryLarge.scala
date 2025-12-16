@@ -5,5 +5,5 @@ import automaton.text.tokens.Token
 private[tokens] trait SizeVeryLarge {
   self: Token =>
 
-  override def size: Float = 16
+  override def fontSize: Float = 16
 }

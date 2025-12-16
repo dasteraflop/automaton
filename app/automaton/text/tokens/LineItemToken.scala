@@ -7,7 +7,7 @@ import automaton.text.tokens.mixins.SizeNormal
  *
  * @param value text for this token value
  */
-case class LineItemToken (
+case class LineItemToken(
   value: String,
 ) extends Token with SizeNormal {
 

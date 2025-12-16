@@ -42,11 +42,14 @@ object Cache {
    * @return
    */
   def default(): Cache = {
-    new SimpleDiskCache(
-      sys.env.getOrElse(
-        "AUTOMATON_CACHE_LOCATION",
-        throw new IllegalArgumentException()
-      )
+    sys.env.get(
+      "AUTOMATON_CACHE_LOCATION"
+    ).map(
+      s => {
+        new SimpleDiskCache(s)
+      }
+    ).getOrElse(
+      new NoOpCache()
     )
   }
 }

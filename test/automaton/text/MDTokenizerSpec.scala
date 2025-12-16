@@ -10,50 +10,80 @@ import org.scalatestplus.junit.JUnitRunner
 class MDTokenizerSpec extends AnyFlatSpec {
 
   "MDTokenizer" should "tokenize good markdown text" in {
-    val text   =
+    val text =
       """
-        |# Name
-        |things
-        |and
-        |stuff
+        |# Jimmy Bob
+        |**title or what ever**
+        |another text
         |
         |---
         |
         |## Profile
-        |Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies
+        |Technical leader blah blah
         |
         |---
         |
-        |## Skills
+        |## Core Competencies
         |- item 1
-        |- item 2
-        |- item 3
+        |- item2
+        |- item3
         |
         |---
-        |✅ this line is not good
+        |
+        |## Professional Experience
+        |
+        |### title
+        |*date – Present*
+        |some text
+        |- did things
+        |- built stuff
+        |
+        |---
+        |
+        |### another job
+        |*date – another date*
+        |- other things
+        |- and wrote some other stuff
         |""".stripMargin
-    val tokens = Tokenizer.default().tokens(text)
-    assert(
-      tokens == Seq(
-        BreakToken(""),
-        NameToken("Name"),
-        ShortTextToken("things"),
-        ShortTextToken("and"),
-        ShortTextToken("stuff"),
-        BreakToken(""),
-        BreakToken(""),
-        SectionHeaderToken("Profile"),
-        LongTextToken("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies"),
-        BreakToken(""),
-        BreakToken(""),
-        SectionHeaderToken("Skills"),
-        LineItemToken("- item 1"),
-        LineItemToken("- item 2"),
-        LineItemToken("- item 3"),
-        BreakToken("")
 
-      )
+    val expected = Seq(
+      HeaderToken("Jimmy Bob", 1),
+      BoldTextToken("title or what ever"),
+      TextToken("another text"),
+      BreakToken(""),
+      ParagraphToken(),
+      BreakToken(""),
+      HeaderToken("Profile", 2),
+      TextToken("Technical leader blah blah"),
+      BreakToken(""),
+      ParagraphToken(),
+      BreakToken(""),
+      HeaderToken("Core Competencies", 2),
+      LineItemToken("- item 1"),
+      LineItemToken("- item2"),
+      LineItemToken("- item3"),
+      BreakToken(""),
+      ParagraphToken(),
+      BreakToken(""),
+      HeaderToken("Professional Experience", 2),
+      BreakToken(""),
+      HeaderToken("title", 3),
+      BoldTextToken("date – Present"),
+      TextToken("some text"),
+      LineItemToken("- did things"),
+      LineItemToken("- built stuff"),
+      BreakToken(""),
+      ParagraphToken(),
+      BreakToken(""),
+      HeaderToken("another job", 3),
+      BoldTextToken("date – another date"),
+      LineItemToken("- other things"),
+      LineItemToken("- and wrote some other stuff"),
     )
+    val tokens   = Tokenizer.default().tokens(text)
+    tokens.foreach(println)
+    assert(tokens == expected)
+
   }
 
 

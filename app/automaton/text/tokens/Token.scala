@@ -21,7 +21,7 @@ trait Token {
    *
    * @return
    */
-  def size: Float
+  def fontSize: Float
 
   /**
    * @see [[com.itextpdf.text.Element]]

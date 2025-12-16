@@ -3,12 +3,19 @@ package automaton.text.tokens
 import automaton.text.tokens.mixins.{FontBold, SizeNormal}
 
 /**
- * Name
+ * Headers for a paragraph
  *
  * @param value text for this token value
  */
-case class ShortTextToken (
+case class ParagraphToken private(
   value: String,
 ) extends Token with SizeNormal with FontBold {
 
+}
+
+object ParagraphToken {
+
+  private val instance = ParagraphToken("---")
+
+  def apply(): ParagraphToken = instance
 }

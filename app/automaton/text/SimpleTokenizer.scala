@@ -21,6 +21,25 @@ private[text] class SimpleTokenizer extends Tokenizer {
     asTokens(lines, 1, tokens)
   }
 
+  private def asTokens(lines: Seq[String], idx: Int, tokens: Seq[Token]): Seq[Token] = {
+
+    //    if (idx >= lines.size)
+    //      return tokens
+    //    if (isParagraphHeader(lines, idx))
+    //      asTokens(lines, idx + 1, tokens ++ Seq(ParagraphToken(lines(idx))))
+    //    else if (isSectionHeader(lines, idx))
+    //      asTokens(lines, idx + 1, tokens ++ Seq(SectionHeaderToken(lines(idx))))
+    //    else if (isLineItem(lines, idx))
+    //      asTokens(lines, idx + 1, tokens ++ Seq(LineItemToken(lines(idx))))
+    //    else if (isBreak(lines, idx))
+    //      asTokens(lines, idx + 1, tokens ++ Seq(BreakToken(lines(idx))))
+    //    else if (isLongText(lines, idx))
+    //      asTokens(lines, idx + 1, tokens ++ Seq(LongTextToken(lines(idx))))
+    //    else
+    //      asTokens(lines, idx + 1, tokens ++ Seq(TextToken(lines(idx))))
+    throw new Exception()
+  }
+
   private def isLineItem(lines: Seq[String], i: Int): Boolean = {
     lines(i).startsWith("- ")
   }
@@ -42,25 +61,6 @@ private[text] class SimpleTokenizer extends Tokenizer {
 
   private def isParagraphHeader(lines: Seq[String], i: Int): Boolean = {
     lines(i).matches("^[A-Z ]*$") && lines(i - 1).isEmpty
-  }
-
-  @tailrec
-  private def asTokens(lines: Seq[String], idx: Int, tokens: Seq[Token]): Seq[Token] = {
-    if (idx >= lines.size)
-      return tokens
-    if (isParagraphHeader(lines, idx))
-      asTokens(lines, idx + 1, tokens ++ Seq(ParagraphHeaderToken(lines(idx))))
-    else if (isSectionHeader(lines, idx))
-      asTokens(lines, idx + 1, tokens ++ Seq(SectionHeaderToken(lines(idx))))
-    else if (isLineItem(lines, idx))
-      asTokens(lines, idx + 1, tokens ++ Seq(LineItemToken(lines(idx))))
-    else if (isBreak(lines, idx))
-      asTokens(lines, idx + 1, tokens ++ Seq(BreakToken(lines(idx))))
-    else if (isLongText(lines, idx))
-      asTokens(lines, idx + 1, tokens ++ Seq(LongTextToken(lines(idx))))
-    else
-      asTokens(lines, idx + 1, tokens ++ Seq(ShortTextToken(lines(idx))))
-
   }
 
 }

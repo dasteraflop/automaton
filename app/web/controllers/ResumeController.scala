@@ -4,28 +4,28 @@ import automaton.gpt.query.ResumeAttributes
 import play.api.mvc.*
 import web.service.ResumeService
 
+import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 class ResumeController @Inject()(
   val controllerComponents: ControllerComponents,
-  val service: ResumeService
+  val service:              ResumeService
 ) extends BaseController {
-
-  private def message(text: String): String = {
-    s"""{"msg": "$text"}"""
-  }
 
   def index(
     atsFriendly: Option[Boolean],
-    relevance: Option[Boolean],
-    education: Option[Boolean],
+    relevance:   Option[Boolean],
+    education:   Option[Boolean],
   ): Action[AnyContent] = {
     Action { request =>
       request.body.asJson match {
         case Some(v) =>
           try {
-            val text = service.resume(
+            //TODO: cleanup
+            service.resume(
               (v \ "text").getOrElse(throw new NoSuchElementException()).as[String],
+              (v \ "include").asOpt[Seq[String]].getOrElse(Seq()),
+              (v \ "exclude").asOpt[Seq[String]].getOrElse(Seq()),
               ResumeAttributes(
                 atsFriendly, relevance, education
               )
@@ -46,5 +46,9 @@ class ResumeController @Inject()(
           BadRequest(message("Require a body"))
       }
     }
+  }
+
+  private def message(text: String): String = {
+    s"""{"msg": "$text"}"""
   }
 }

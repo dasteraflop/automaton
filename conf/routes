@@ -1,3 +1,5 @@
 
 
 POST     /generate                       web.controllers.ResumeController.index(atsFriendly: Option[Boolean] ?= Some(true), relevance: Option[Boolean] ?= None, education: Option[Boolean] ?= Some(false))
+
+POST     /keywords                       web.controllers.KeywordController.get()

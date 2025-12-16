@@ -7,8 +7,9 @@ import automaton.text.tokens.mixins.{Center, Separator, SizeLarge}
  *
  * @param value text for this token
  */
-case class SectionHeaderToken(
+case class HeaderToken(
   value: String,
-) extends Token with Center with SizeLarge with Separator {
+  size:  Int
+) extends Token with Center with SizeLarge {
 
 }
